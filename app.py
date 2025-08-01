@@ -1,10 +1,13 @@
 from flask import Flask, render_template
 import requests
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+API_KEY = os.getenv('RAWG_API_KEY')
+
 app = Flask(__name__)
-
-API_KEY = 'SUA_API_KEY_RAWG'  # Coloca aqui a tua key
-
 @app.route('/')
 def home():
     url = f'https://api.rawg.io/api/games?key={API_KEY}&page_size=20'
