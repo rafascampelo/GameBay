@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambiente virtual
+venv/
+env/
+.env
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+
+# Distribuição / packaging
+build/
+dist/
+*.egg-info/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+
+# Logs e databases
+*.log
+*.sqlite3
+*.db
+
+# Tailwind / Node
+node_modules/
+output.css
+
+# MacOS
+.DS_Store
+
+# Outros
+*.bak
+*.tmp
