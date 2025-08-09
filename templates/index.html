@@ -32,6 +32,26 @@
     </header>
 
     <main class="container mx-auto p-8">
+      <!-- Campo de Pesquisa -->
+      <section class="mb-12">
+        <div
+          class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4"
+        >
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Pesquisar jogos..."
+            class="w-full sm:w-1/2 p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#66d9ef]"
+          />
+          <button
+            id="search-btn"
+            class="w-full sm:w-auto bg-[#66d9ef] text-[#1a1f26] font-bold py-3 px-8 rounded-lg hover:bg-[#52c1da] transition-colors duration-300 shadow-md"
+          >
+            Pesquisar
+          </button>
+        </div>
+      </section>
+
       <!-- Seção de Jogos Populares -->
       <section class="mb-12">
         <h2 class="text-3xl font-semibold mb-6 text-gray-100">
@@ -75,6 +95,7 @@
       </div>
     </main>
 
-  </script src="static/main.js">
+    <!-- Importa o arquivo JavaScript externo -->
+    <script src="/static/js/main.js"></script>
   </body>
 </html>
