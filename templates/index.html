@@ -6,6 +6,11 @@
     <title>GameBay - Catálogo de Jogos</title>
     <!-- Inclui o Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inclui o Font Awesome para ícones -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
     <style>
       /* Estilos customizados para o scrollbar */
       body::-webkit-scrollbar {
@@ -67,6 +72,23 @@
         }, 3000);
       }
 
+      // Nova função para lidar com o clique no botão de favoritos
+      function handleFavoriteClick(buttonElement, gameId) {
+        const isFavorited = buttonElement.dataset.favorited === "true";
+
+        if (isFavorited) {
+          // Lógica para remover favorito
+          buttonElement.dataset.favorited = "false";
+          buttonElement.innerHTML = `<img src="https://placehold.co/20x20/3d424b/ffffff?text=X" alt="Remover dos favoritos"><span>Remover</span>`;
+          showToast(`Jogo com ID ${gameId} foi removido dos favoritos.`);
+        } else {
+          // Lógica para adicionar favorito
+          buttonElement.dataset.favorited = "true";
+          buttonElement.innerHTML = `<img src="https://placehold.co/20x20/3d424b/ffffff?text=O" alt="Adicionar aos favoritos"><span>Favoritado</span>`;
+          showToast(`Jogo com ID ${gameId} foi adicionado aos favoritos.`);
+        }
+      }
+
       // Função para criar um card de jogo no HTML
       function createGameCard(game) {
         const card = document.createElement("div");
@@ -96,6 +118,14 @@
                           game.genres.map((g) => g.name).join(", ") || "N/A"
                         }</p>
                     </div>
+                    <button class="favorite-btn mt-4 w-full bg-[#3d424b] text-[#66d9ef] font-semibold py-2 px-4 rounded-md hover:bg-[#4a515c] transition-colors duration-300 flex items-center justify-center space-x-2" data-game-id="${
+                      game.id
+                    }" data-favorited="false" onclick="handleFavoriteClick(this, '${
+          game.id
+        }')">
+                        <img src="https://placehold.co/20x20/3d424b/ffffff?text=O" alt="Adicionar aos favoritos">
+                        <span>Favoritar</span>
+                    </button>
                 </div>
             `;
         return card;
@@ -132,6 +162,9 @@
           gamesContainer.innerHTML = `<p class="text-center text-lg col-span-full text-red-500">Erro ao carregar jogos. Detalhes: ${error.message}</p>`;
         }
       }
+
+      // Remove o event listener global, pois o onclick agora é usado
+      // document.addEventListener('click', (event) => { ... });
 
       // Ao carregar a página, busca a lista de jogos
       document.addEventListener("DOMContentLoaded", () => {
