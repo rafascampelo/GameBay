@@ -1,52 +1,80 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-zinc-900 text-white">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GameBay</title>
-    <link
-      href="{{ url_for('static', filename='output.css') }}"
-      rel="stylesheet"
-    />
+    <title>GameBay - Catálogo de Jogos</title>
+    <!-- Inclui o Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Estilos customizados para o scrollbar */
+      body::-webkit-scrollbar {
+        width: 12px;
+      }
+      body::-webkit-scrollbar-track {
+        background: #252a32;
+      }
+      body::-webkit-scrollbar-thumb {
+        background-color: #4a5568;
+        border-radius: 20px;
+        border: 3px solid #252a32;
+      }
+      /* Configuração da fonte Inter */
+      html {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
   </head>
-  <body class="min-h-screen flex flex-col">
-    <!-- Navbar -->
-    <header class="bg-black shadow-md p-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-blue-500">GameBay</h1>
-      <div class="flex gap-4 items-center">
-        <button class="text-blue-400 hover:text-blue-300">Login</button>
-        <button class="text-blue-400 hover:text-blue-300">🛒</button>
-      </div>
+  <body class="bg-[#252a32] text-gray-200">
+    <header class="bg-[#1a1f26] p-6 text-center shadow-lg">
+      <h1 class="text-4xl font-bold text-[#66d9ef]">GameBay</h1>
+      <p class="mt-2 text-lg text-gray-400">Sua vitrine de jogos interativa</p>
     </header>
 
-    <!-- Games Grid -->
-    <main class="flex-grow p-6">
-      <h2 class="text-3xl font-semibold mb-6 text-blue-400">Top Games</h2>
-      <div
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-      >
-        {% for game in games %}
+    <main class="container mx-auto p-8">
+      <!-- Seção de Jogos Populares -->
+      <section class="mb-12">
+        <h2 class="text-3xl font-semibold mb-6 text-gray-100">
+          Jogos Populares
+        </h2>
         <div
-          class="bg-black border border-blue-700 rounded-xl overflow-hidden shadow-lg hover:shadow-blue-600 transition-shadow"
+          id="games-container"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
         >
-          <img
-            src="{{ game.background_image }}"
-            alt="{{ game.name }}"
-            class="w-full h-48 object-cover"
-          />
-          <div class="p-4">
-            <h3 class="text-lg font-bold text-white mb-2">{{ game.name }}</h3>
-            <p class="text-sm text-zinc-400">Rating: {{ game.rating }}/5</p>
-            <p class="text-sm text-zinc-400">Released: {{ game.released }}</p>
-          </div>
+          <!-- Cards de jogos serão renderizados aqui pelo JavaScript -->
         </div>
-        {% endfor %}
+      </section>
+
+      <!-- Seção de Recomendações -->
+      <section>
+        <h2 class="text-3xl font-semibold mb-6 text-gray-100">
+          Recomendações para Você
+        </h2>
+        <div class="flex justify-start mb-4">
+          <button
+            id="get-recommendations-btn"
+            class="bg-[#66d9ef] text-[#1a1f26] font-bold py-2 px-6 rounded-lg hover:bg-[#52c1da] transition-colors duration-300 shadow-md"
+          >
+            Gerar Recomendações
+          </button>
+        </div>
+        <div
+          id="recommendations-container"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+        >
+          <!-- Recomendações serão renderizadas aqui -->
+        </div>
+      </section>
+
+      <!-- Mensagem de Alerta (Toast) -->
+      <div
+        id="toast"
+        class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-xl opacity-0 transition-opacity duration-300"
+      >
+        Mensagem de Alerta
       </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-black p-4 text-center text-sm text-zinc-500">
-      &copy; 2025 GameBay. All rights reserved.
-    </footer>
+  </script src="static/main.js">
   </body>
 </html>
