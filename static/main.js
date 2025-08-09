@@ -1,4 +1,4 @@
-// Esta é a parte do JavaScript que será importada pelo index.html
+// Este é o código JavaScript que será importado pelo index.html
 
 // Função para mostrar uma mensagem de feedback ao usuário
 function showToast(message) {
@@ -25,7 +25,6 @@ function createGameCard(game) {
       game.name
     )}`;
 
-  // Adiciona a imagem de fundo do jogo
   card.innerHTML = `
         <img src="${imageUrl}" alt="${
     game.name
@@ -38,11 +37,6 @@ function createGameCard(game) {
                   game.genres.map((g) => g.name).join(", ") || "N/A"
                 }</p>
             </div>
-            <button class="favorite-btn mt-4 w-full bg-[#3d424b] text-[#66d9ef] font-semibold py-2 px-4 rounded-md hover:bg-[#4a515c] transition-colors duration-300" data-game='${JSON.stringify(
-              game
-            )}'>
-                Favoritar
-            </button>
         </div>
     `;
   return card;
@@ -52,89 +46,34 @@ function createGameCard(game) {
 async function fetchGames() {
   const gamesContainer = document.getElementById("games-container");
   gamesContainer.innerHTML =
-    '<p class="text-center text-lg col-span-full">Carregando jogos...</p>';
+    '<p class="text-center text-lg col-span-full">A carregar jogos...</p>';
 
   try {
-    // A requisição para a rota '/api/games' que você vai criar no Flask
     const gamesUrl = "/api/games";
     const gamesResponse = await fetch(gamesUrl);
-    if (!gamesResponse.ok)
-      throw new Error("Não foi possível buscar a lista de jogos.");
+
+    if (!gamesResponse.ok) {
+      // Lança um erro se a resposta da API não for bem-sucedida (ex: 404, 500)
+      throw new Error(`Erro na API: ${gamesResponse.status}`);
+    }
+
     const gamesData = await gamesResponse.json();
 
     gamesContainer.innerHTML = ""; // Limpa a mensagem de carregamento
-    gamesData.forEach((game) => {
-      const card = createGameCard(game);
-      gamesContainer.appendChild(card);
-    });
+    if (gamesData.length > 0) {
+      gamesData.forEach((game) => {
+        const card = createGameCard(game);
+        gamesContainer.appendChild(card);
+      });
+    } else {
+      gamesContainer.innerHTML =
+        '<p class="text-center text-lg col-span-full text-gray-400">Nenhum jogo encontrado.</p>';
+    }
   } catch (error) {
     console.error("Erro ao buscar jogos populares:", error);
-    gamesContainer.innerHTML =
-      '<p class="text-center text-lg col-span-full text-red-500">Erro ao carregar jogos. Tente novamente mais tarde.</p>';
+    gamesContainer.innerHTML = `<p class="text-center text-lg col-span-full text-red-500">Erro ao carregar jogos. Detalhes: ${error.message}</p>`;
   }
 }
-
-// Função para adicionar um jogo aos favoritos
-async function addFavorite(gameData) {
-  try {
-    const response = await fetch("/api/add_favorite", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(gameData),
-    });
-    const result = await response.json();
-    if (result.success) {
-      showToast(result.message);
-    } else {
-      showToast(result.message);
-    }
-  } catch (error) {
-    console.error("Erro ao adicionar favorito:", error);
-    showToast("Erro de conexão com o servidor.");
-  }
-}
-
-// Função para buscar e exibir as recomendações
-async function fetchRecommendations() {
-  const recContainer = document.getElementById("recommendations-container");
-  recContainer.innerHTML =
-    '<p class="text-center text-lg col-span-full">Gerando recomendações...</p>';
-
-  try {
-    const response = await fetch("/api/recommendations");
-    const recommendations = await response.json();
-
-    recContainer.innerHTML = ""; // Limpa a mensagem de carregamento
-
-    if (recommendations.success === false) {
-      // Mensagem de erro da API, se não houver favoritos
-      recContainer.innerHTML = `<p class="text-center text-lg col-span-full text-yellow-400">${recommendations.message}</p>`;
-    } else {
-      recommendations.forEach((game) => {
-        const card = createGameCard(game);
-        recContainer.appendChild(card);
-      });
-    }
-  } catch (error) {
-    console.error("Erro ao buscar recomendações:", error);
-    recContainer.innerHTML =
-      '<p class="text-center text-lg col-span-full text-red-500">Erro ao carregar recomendações. Tente novamente mais tarde.</p>';
-  }
-}
-
-// Listener para o botão de Favoritar
-document.addEventListener("click", (event) => {
-  if (event.target.classList.contains("favorite-btn")) {
-    // Pega os dados do jogo salvos no atributo 'data-game'
-    const gameData = JSON.parse(event.target.getAttribute("data-game"));
-    addFavorite(gameData);
-  }
-});
-
-// Listener para o botão de Recomendações
-document
-  .getElementById("get-recommendations-btn")
-  .addEventListener("click", fetchRecommendations);
 
 // Ao carregar a página, busca a lista de jogos
 document.addEventListener("DOMContentLoaded", () => {
