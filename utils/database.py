@@ -1,37 +1,37 @@
 import duckdb
 import os
 
-# Define o caminho do banco de dados dentro da pasta 'db'
+# Define o caminho do banco de dados para os jogos
 DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'db', 'games.duckdb')
 
-def get_connection():
-  """Retorna uma conexão com o DuckDB."""
+def get_games_db_connection():
+  """Cria e retorna uma conexão com a base de dados de jogos."""
   con = duckdb.connect(database=DB_PATH, read_only=False)
   return con
 
-def setup_database():
-  """Cria a tabela de favoritos se ela ainda não existir."""
-  con = get_connection()
-  # A tabela de favoritos guardará os dados importantes para a recomendação
+def setup_games_db():
+  """Cria a tabela de favoritos com uma coluna user_id."""
+  con = get_games_db_connection()
   con.execute("""
       CREATE TABLE IF NOT EXISTS favoritos (
-          game_id VARCHAR PRIMARY KEY,
+          game_id VARCHAR NOT NULL,
+          user_id INTEGER NOT NULL,
           name VARCHAR,
           genres VARCHAR,
-          tags VARCHAR
+          tags VARCHAR,
+          PRIMARY KEY (game_id, user_id)
       );
   """)
   con.close()
 
-def add_favorite(game_id, name, genres, tags):
-  """Adiciona um jogo à tabela de favoritos."""
-  con = get_connection()
-  # Usa 'params' para evitar SQL Injection e garantir que a inserção seja segura
+def add_favorite(user_id, game_id, name, genres, tags):
+  """Adiciona um jogo à tabela de favoritos para um utilizador específico."""
+  con = get_games_db_connection()
   try:
     con.execute("""
-      INSERT INTO favoritos (game_id, name, genres, tags) VALUES (?, ?, ?, ?)
-      ON CONFLICT (game_id) DO NOTHING;
-    """, [game_id, name, genres, tags])
+      INSERT INTO favoritos (user_id, game_id, name, genres, tags) VALUES (?, ?, ?, ?, ?)
+      ON CONFLICT (game_id, user_id) DO NOTHING;
+    """, [user_id, game_id, name, genres, tags])
     con.close()
     return True
   except duckdb.Error as e:
@@ -39,5 +39,12 @@ def add_favorite(game_id, name, genres, tags):
     con.close()
     return False
 
-# Chama a função para criar a tabela quando o módulo é importado
-setup_database()
+def get_favorites(user_id):
+  """Retorna todos os jogos favoritos de um utilizador específico."""
+  con = get_games_db_connection()
+  favorites = con.execute("SELECT * FROM favoritos WHERE user_id = ?;", [user_id]).fetchall()
+  con.close()
+  return favorites
+
+# Chama a função para criar a tabela de jogos ao iniciar
+setup_games_db()
