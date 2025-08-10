@@ -33,7 +33,6 @@
   <body class="bg-[#252a32] text-gray-200">
     <header class="bg-[#1a1f26] p-6 text-center shadow-lg">
       <h1 class="text-4xl font-bold text-[#66d9ef]">GameBay</h1>
-      <p class="mt-2 text-lg text-gray-400">Sua vitrine de jogos interativa</p>
     </header>
 
     <main class="container mx-auto p-8">
@@ -79,12 +78,13 @@
         if (isFavorited) {
           // Lógica para remover favorito
           buttonElement.dataset.favorited = "false";
-          buttonElement.innerHTML = `<img src="/assets/heart.png">`;
+          buttonElement.innerHTML = `<img src="/static/assets/heart.png" class="h-5 w-5">`;
           showToast(`Jogo com ID ${gameId} foi removido dos favoritos.`);
         } else {
           // Lógica para adicionar favorito
           buttonElement.dataset.favorited = "true";
-          buttonElement.innerHTML = `<img src="/assets/heartred.png">`;
+          buttonElement.innerHTML = `<img src="/static/assets/heartred.png"
+          class="h-5 w-5">`;
           showToast(`Jogo com ID ${gameId} foi adicionado aos favoritos.`);
         }
       }
@@ -107,23 +107,33 @@
           game.name
         }" class="w-full h-48 object-cover">
                 <div class="p-4">
-                    <h3 class="text-xl font-bold text-gray-100">${
-                      game.name
-                    }</h3>
+                    <h3 class="text-xl font-bold text-gray-100">
+  ${game.name.length > 20 ? game.name.slice(0, 20) + "..." : game.name}
+</h3>
                     <div class="mt-2 text-sm text-gray-400">
                         <p><strong>Lançamento:</strong> ${
                           game.released || "N/A"
                         }</p>
-                        <p><strong>Gêneros:</strong> ${
-                          game.genres.map((g) => g.name).join(", ") || "N/A"
-                        }</p>
+                        <p>
+  <strong>Gêneros:</strong>
+  ${
+    game.genres.length > 0
+      ? game.genres
+          .slice(0, 3) // pega só os 3 primeiros
+          .map((g) => g.name)
+          .join(", ")
+      : "N/A"
+  }
+</p>
+
                     </div>
                        <button 
           class="favorite-btn mt-4 w-full bg-[#3d424b] text-[#66d9ef] font-semibold py-2 px-4 rounded-md hover:bg-[#4a515c] transition-colors duration-300 flex items-center justify-center space-x-2" 
           data-game-id="${game.id}" 
           data-favorited="false" 
+           
           onclick="handleFavoriteClick(this, '${game.id}')"
-        >
+        ><img src="/static/assets/heart.png" alt="Adicionar aos favoritos" class="h-5 w-5">
         </button>
                 </div>
             `;
