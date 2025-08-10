@@ -79,12 +79,12 @@
         if (isFavorited) {
           // Lógica para remover favorito
           buttonElement.dataset.favorited = "false";
-          buttonElement.innerHTML = `<img src="https://placehold.co/20x20/3d424b/ffffff?text=X" alt="Remover dos favoritos"><span>Remover</span>`;
+          buttonElement.innerHTML = `<img src="/assets/heart.png">`;
           showToast(`Jogo com ID ${gameId} foi removido dos favoritos.`);
         } else {
           // Lógica para adicionar favorito
           buttonElement.dataset.favorited = "true";
-          buttonElement.innerHTML = `<img src="https://placehold.co/20x20/3d424b/ffffff?text=O" alt="Adicionar aos favoritos"><span>Favoritado</span>`;
+          buttonElement.innerHTML = `<img src="/assets/heartred.png">`;
           showToast(`Jogo com ID ${gameId} foi adicionado aos favoritos.`);
         }
       }
@@ -118,14 +118,13 @@
                           game.genres.map((g) => g.name).join(", ") || "N/A"
                         }</p>
                     </div>
-                    <button class="favorite-btn mt-4 w-full bg-[#3d424b] text-[#66d9ef] font-semibold py-2 px-4 rounded-md hover:bg-[#4a515c] transition-colors duration-300 flex items-center justify-center space-x-2" data-game-id="${
-                      game.id
-                    }" data-favorited="false" onclick="handleFavoriteClick(this, '${
-          game.id
-        }')">
-                        <img src="https://placehold.co/20x20/3d424b/ffffff?text=O" alt="Adicionar aos favoritos">
-                        <span>Favoritar</span>
-                    </button>
+                       <button 
+          class="favorite-btn mt-4 w-full bg-[#3d424b] text-[#66d9ef] font-semibold py-2 px-4 rounded-md hover:bg-[#4a515c] transition-colors duration-300 flex items-center justify-center space-x-2" 
+          data-game-id="${game.id}" 
+          data-favorited="false" 
+          onclick="handleFavoriteClick(this, '${game.id}')"
+        >
+        </button>
                 </div>
             `;
         return card;
