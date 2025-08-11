@@ -2,39 +2,47 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyc
 
 # Ambiente virtual
 venv_gamebay/
 env/
 .env
 
-# Byte-compiled / optimized / DLL files
-*.pyc
-*.pyo
-*.pyd
+# Banco de dados
+*.db
+*.sqlite3
 
-# Distribuição / packaging
+# Distribuição / Packaging
 build/
 dist/
 *.egg-info/
+.coverage
+
+# Logs
+*.log
+log.txt
 
 # Editor / IDE
 .vscode/
 .idea/
+.project
+.settings
+.vs
 *.swp
-
-# Logs e databases
-*.log
-*.sqlite3
-*.db
+*~
+*.bak
 
 # Tailwind / Node
 node_modules/
 output.css
+# Adicionado para evitar que arquivos de cache ou temporários do Node sejam versionados
+npm-debug.log*
+yarn-error.log*
+package-lock.json
 
 # MacOS
 .DS_Store
 
 # Outros
-*.bak
 *.tmp
