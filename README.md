@@ -70,3 +70,5 @@ python install -r requirements.txt
 ```bash
 python app.py
 ```
+
+IMPORTANT: black . (formata todos os arquivos do projeto)

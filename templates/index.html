@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>GameBay - Catálogo de Jogos</title>
-    <!-- Inclui o Tailwind CSS via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inclui o Tailwind CSS via CLI-->
+    <link href="../static/output.css" rel="stylesheet" />
     <!-- Inclui o Font Awesome para ícones -->
     <link
       rel="stylesheet"
@@ -32,18 +32,22 @@
     </style>
   </head>
   <body class="bg-[#252a32] text-gray-200">
-    <header class="bg-[#1a1f26] p-6 text-center shadow-lg">
-      <h1 class="text-4xl font-bold text-[#66d9ef]">GameBay</h1>
-      <button
-        id="auth-btn"
-        class="bg-[#3d424b] text-[#66d9ef] items-center text-center py-2 px-6 rounded-lg hover:bg-[#4a515c] transition-colors duration-300"
-      >
-        Login / Registo
-      </button>
-    </header>
+    <nav class="bg-[#1a1f26] py-6 shadow-lg">
+      <div class="container mx-auto px-6 flex justify-between items-center">
+        <div>
+          <h1 class="text-4xl font-bold text-[#66d9ef]">GameBay</h1>
+        </div>
+        <button
+          id="auth-btn"
+          class="bg-[#3d424b] text-[#66d9ef] font-semibold py-2 px-6 rounded-lg hover:bg-[#4a515c] transition-colors duration-300"
+        >
+          Login
+        </button>
+      </div>
+    </nav>
 
+    <!-- Seção de Jogos Populares -->
     <main class="container mx-auto p-8">
-      <!-- Seção de Jogos Populares -->
       <section class="mb-12">
         <h2 class="text-3xl font-semibold mb-6 text-gray-100">
           Jogos Populares
@@ -51,12 +55,10 @@
         <div
           id="games-container"
           class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
-        >
-          <!-- Cards de jogos serão renderizados aqui pelo JavaScript -->
-        </div>
+        ></div>
       </section>
     </main>
-
+    <!-- Cards de jogos serão renderizados aqui pelo JavaScript -->
     <script>
       // Função para mostrar uma mensagem de feedback ao usuário (toast)
       function showToast(message) {
