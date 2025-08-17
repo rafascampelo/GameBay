@@ -39,7 +39,33 @@ APImmerce is a lightweight e-commerce style game catalog built with Flask, DuckD
    cd APImmerce
    ```
 
-2. Run the Flask app
+2. Create and Open the venv
+
+To create:
+
+```bash
+python -m venv venv_gamebay
+```
+
+Windows
+
+```bash :
+.\venv_gamebay\Scripts\Activate.ps1
+```
+
+MacIos
+
+```bash
+source venv_gamebay/bin/activate
+```
+
+3.Install dependencies
+
+```bash
+python install -r requirements.txt
+```
+
+4. Run the Flask app
 
 ```bash
 python app.py
