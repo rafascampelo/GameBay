@@ -1,0 +1,128 @@
+// Função para mostrar uma mensagem de feedback ao usuário (toast)
+function showToast(message) {
+  const toast = document.createElement("div");
+  toast.className =
+    "fixed bottom-5 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-xl opacity-0 transition-opacity duration-300";
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.remove("opacity-0");
+    toast.classList.add("opacity-100");
+  }, 100);
+
+  setTimeout(() => {
+    toast.classList.remove("opacity-100");
+    toast.classList.add("opacity-0");
+    setTimeout(() => toast.remove(), 500);
+  }, 3000);
+}
+
+// Nova função para lidar com o clique no botão de favoritos
+function handleFavoriteClick(buttonElement, gameId) {
+  const isFavorited = buttonElement.dataset.favorited === "true";
+
+  if (isFavorited) {
+    // Lógica para remover favorito
+    buttonElement.dataset.favorited = "false";
+    buttonElement.innerHTML = `<img src="/static/assets/heart.png" class="h-5 w-5">`;
+    showToast(`Jogo com ID ${gameId} foi removido dos favoritos.`);
+  } else {
+    // Lógica para adicionar favorito
+    buttonElement.dataset.favorited = "true";
+    buttonElement.innerHTML = `<img src="/static/assets/heartred.png"
+          class="h-5 w-5">`;
+    showToast(`Jogo com ID ${gameId} foi adicionado aos favoritos.`);
+  }
+}
+
+// Função para criar um card de jogo no HTML
+function createGameCard(game) {
+  const card = document.createElement("div");
+  card.className =
+    "bg-[#1a1f26] rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105";
+
+  // Verifica se a imagem existe, caso contrário, usa um placeholder
+  const imageUrl =
+    game.background_image ||
+    `https://placehold.co/400x225/1a1f26/d1d5db?text=${encodeURIComponent(
+      game.name
+    )}`;
+
+  card.innerHTML = `
+                <img src="${imageUrl}" alt="${
+    game.name
+  }" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-gray-100">
+  ${game.name.length > 20 ? game.name.slice(0, 20) + "..." : game.name}
+</h3>
+                    <div class="mt-2 text-sm text-gray-400">
+                        <p><strong>Lançamento:</strong> ${
+                          game.released || "N/A"
+                        }</p>
+                        <p>
+  <strong>Gêneros:</strong>
+  ${
+    game.genres.length > 0
+      ? game.genres
+          .slice(0, 3) // pega só os 3 primeiros
+          .map((g) => g.name)
+          .join(", ")
+      : "N/A"
+  }
+</p>
+
+                    </div>
+                       <button 
+          class="favorite-btn mt-4 w-full bg-[#3d424b] text-[#66d9ef] font-semibold py-2 px-4 rounded-md hover:bg-[#4a515c] transition-colors duration-300 flex items-center justify-center space-x-2" 
+          data-game-id="${game.id}" 
+          data-favorited="false" 
+           
+          onclick="handleFavoriteClick(this, '${game.id}')"
+        ><img src="/static/assets/heart.png" alt="Adicionar aos favoritos" class="h-5 w-5">
+        </button>
+                </div>
+            `;
+  return card;
+}
+
+// Função para buscar a lista de jogos populares
+async function fetchGames() {
+  const gamesContainer = document.getElementById("games-container");
+  gamesContainer.innerHTML =
+    '<p class="text-center text-lg col-span-full">A carregar jogos...</p>';
+
+  try {
+    const gamesUrl = "/api/games";
+    const gamesResponse = await fetch(gamesUrl);
+
+    if (!gamesResponse.ok) {
+      throw new Error(`Erro na API: ${gamesResponse.status}`);
+    }
+
+    const gamesData = await gamesResponse.json();
+
+    gamesContainer.innerHTML = ""; // Limpa a mensagem de carregamento
+    if (gamesData.length > 0) {
+      gamesData.forEach((game) => {
+        const card = createGameCard(game);
+        gamesContainer.appendChild(card);
+      });
+    } else {
+      gamesContainer.innerHTML =
+        '<p class="text-center text-lg col-span-full text-gray-400">Nenhum jogo encontrado.</p>';
+    }
+  } catch (error) {
+    console.error("Erro ao buscar jogos populares:", error);
+    gamesContainer.innerHTML = `<p class="text-center text-lg col-span-full text-red-500">Erro ao carregar jogos. Detalhes: ${error.message}</p>`;
+  }
+}
+
+// Remove o event listener global, pois o onclick agora é usado
+// document.addEventListener('click', (event) => { ... });
+
+// Ao carregar a página, busca a lista de jogos
+document.addEventListener("DOMContentLoaded", () => {
+  fetchGames();
+});
