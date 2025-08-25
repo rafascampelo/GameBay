@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GameBay - Catálogo de Jogos</title>
     <!-- Inclui o Tailwind CSS via CLI-->
-    <link href="../static/output.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <!-- Inclui o Font Awesome para ícones -->
     <link
       rel="stylesheet"
@@ -13,13 +14,58 @@
     />
   </head>
   <body class="bg-[#252a32] text-gray-200">
-    <nav
-      class="fixed p-32 justify-between flex-row items-start pt-5 bg-blue-950 opacity-15"
+    <header
+      class="bg-[#1a1f26] text-white flex items-center justify-between p-4 shadow-md"
     >
-      <div>
-        <h2 class="text-cyan-500">GameBay</h2>
-      </div>
+      <h1 class="text-2xl font-bold text-[#66d9ef]">GameBay</h1>
+      <button id="menu-btn" class="text-3xl text-[#66d9ef] focus:outline-none">
+        ☰
+      </button>
+    </header>
+
+    <!-- Menu lateral -->
+    <nav
+      id="side-menu"
+      class="fixed top-0 right-[-100%] sm:right-[-250px] w-full sm:max-w-[250px] h-full bg-[#3d424b] text-white p-6 transition-all duration-300 shadow-lg"
+    >
+      <button
+        id="close-btn"
+        class="absolute top-4 left-4 text-3xl text-[#66d9ef]"
+      >
+        ×
+      </button>
+      <ul class="mt-10 space-y-4">
+        <li>
+          <a
+            href="#"
+            class="block text-lg text-[#66d9ef] hover:bg-[#1a1f26] rounded-lg px-4 py-2"
+            >Início</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="block text-lg text-[#66d9ef] hover:bg-[#1a1f26] rounded-lg px-4 py-2"
+            >Sobre</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="block text-lg text-[#66d9ef] hover:bg-[#1a1f26] rounded-lg px-4 py-2"
+            >Serviços</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="block text-lg text-[#66d9ef] hover:bg-[#1a1f26] rounded-lg px-4 py-2"
+            >Contato</a
+          >
+        </li>
+      </ul>
     </nav>
+
     <!-- Seção de Jogos Populares -->
     <main class="container mx-auto my-auto p-8">
       <section class="mb-12">
@@ -33,6 +79,7 @@
       </section>
     </main>
     <!-- Cards de jogos serão renderizados aqui pelo JavaScript -->
+    <script src="../static/js/navbar.js"></script>
     <script src="../static/js/main.js"></script>
   </body>
 </html>
