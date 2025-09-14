@@ -1,16 +1,16 @@
 # APImmerce 🎮
 
-APImmerce is a lightweight e-commerce style game catalog built with Flask, DuckDB, and Tailwind CSS. It consumes the RAWG API to display game data, allowing users to browse, filter, and favorite games, all with local storage powered by DuckDB.
+GameBay is a lightweight e-commerce style game catalog built with Flask, DuckDB, and Tailwind CSS. It consumes the RAWG API to display game data, allowing users to browse, filter, and favorite games, all with local storage powered by DuckDB.
 
 ---
 
 ## Features
 
 - Fetches game data dynamically from the RAWG API
-- Displays games in a clean, responsive grid layout with Tailwind CSS
+- Displays games in a clean, responsive grid layout with Tailwind CSS by CDN
 - Shows detailed information about each game
-- Supports filtering and searching (to be implemented)
-- Stores user favorites and viewed games locally using DuckDB
+- Supports filtering and searching (it will implemented)
+- Stores user favorites and viewed games locally using DuckDB (it will implemented)
 
 ---
 

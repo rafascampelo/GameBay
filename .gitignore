@@ -40,7 +40,7 @@ output.css
 npm-debug.log*
 yarn-error.log*
 package-lock.json
-
+package.json
 # MacOS
 .DS_Store
 
