@@ -35,8 +35,8 @@ GameBay is a lightweight e-commerce style game catalog built with Flask, DuckDB,
 1. Clone the repo
 
    ```bash
-   git clone https://github.com/seu-usuario/APImmerce.git
-   cd APImmerce
+   git clone https://github.com/rafascampelo/GameBay.git
+   cd GameBay
    ```
 
 2. Create and Open the venv
@@ -62,13 +62,13 @@ source venv_gamebay/bin/activate
 3.Install dependencies
 
 ```bash
-python install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 4. Run the Flask app
 
 ```bash
-python app.py
+
 ```
 
 IMPORTANT: black . (formata todos os arquivos do projeto)
